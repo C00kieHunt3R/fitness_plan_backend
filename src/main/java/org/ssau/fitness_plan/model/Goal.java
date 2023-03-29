@@ -21,7 +21,7 @@ public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", columnDefinition = "text", length = 100, nullable = false)
+    @Column(name = "name", columnDefinition = "text", length = 100, nullable = false, unique = true)
     private String name;
     @Column(name = "comment", columnDefinition = "text")
     private String comment;
@@ -34,12 +34,6 @@ public class Goal {
     @Column(name = "image", columnDefinition = "text")
     private String image;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumns({
-//            @JoinColumn(name = "owner_name", referencedColumnName = "name"),
-//            @JoinColumn(name = "owner_surname", referencedColumnName = "surname")
-//    })
-//    private UserAccount owner;
     @ManyToOne(fetch = FetchType.EAGER)
     private UserAccount owner;
 

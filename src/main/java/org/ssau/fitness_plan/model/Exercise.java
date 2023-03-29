@@ -4,7 +4,10 @@ package org.ssau.fitness_plan.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -27,20 +30,21 @@ public class Exercise {
     @Column(name = "weight", columnDefinition = "decimal")
     private Double weight;
 
-    public Exercise() {
+    public Exercise() {}
 
-    }
-
-    public Exercise(Long id, String name, String image, Integer reps, Integer sets, Double weight) {
+    public Exercise(Long id, String name, String image, Integer reps, Integer sets, Double weight, List<Workout> workouts) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.reps = reps;
         this.sets = sets;
         this.weight = weight;
+        this.workouts = workouts;
     }
 
-    //    @ManyToOne(fetch = FetchType.LAZY)
-//    private Workout workout;
+
+    @ManyToMany(mappedBy = "exercises", cascade = CascadeType.REFRESH)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Workout> workouts;
 
 }

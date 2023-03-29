@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.ssau.fitness_plan.dto.GoalDto;
+import org.ssau.fitness_plan.dto.UserAccountDto;
 import org.ssau.fitness_plan.exception.NoSuchEntityIdException;
 import org.ssau.fitness_plan.model.Goal;
 import org.ssau.fitness_plan.repository.GoalRepository;
@@ -33,12 +34,17 @@ public class GoalService {
 
     public GoalDto update(GoalDto dto) {
         Goal goal = getEntity(dto.getId());
-        BeanUtils.copyProperties(dto, goal, "id");
+        BeanUtils.copyProperties(dto, goal, "id", "started");
+        //goal = GoalDto.toEntity(dto);
+        //goal.setOwner(UserAccountDto.toEntity(accountService.findById(dto.getOwnerId())));
+//        BeanUtils.copyProperties(dto, goal, "id");
         return GoalDto.fromEntity(goalRepository.save(goal));
     }
 
     public GoalDto create(GoalDto dto) {
-        return GoalDto.fromEntity(goalRepository.save(getEntity(dto.getId())));
+        Goal goal = GoalDto.toEntity(dto);
+        //goal.setOwner(UserAccountDto.toEntity(accountService.findById(dto.getOwnerId())));
+        return GoalDto.fromEntity(goalRepository.save(goal));
     }
 
     public void delete(Long id) {

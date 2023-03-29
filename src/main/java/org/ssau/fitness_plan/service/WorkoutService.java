@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.ssau.fitness_plan.dto.WorkoutDto;
 import org.ssau.fitness_plan.exception.NoSuchEntityIdException;
+import org.ssau.fitness_plan.model.Exercise;
 import org.ssau.fitness_plan.model.Workout;
+import org.ssau.fitness_plan.repository.ExerciseRepository;
 import org.ssau.fitness_plan.repository.WorkoutRepository;
 
 import java.util.ArrayList;
@@ -15,22 +17,35 @@ import java.util.List;
 public class WorkoutService {
     @Autowired
     WorkoutRepository workoutRepository;
+    @Autowired
+    ExerciseRepository exerciseRepository;
 
     public List<WorkoutDto> findAll() {
         List<WorkoutDto> dtoList = new ArrayList<>();
         for (Workout workout:
              workoutRepository.findAll()) {
-            dtoList.add(WorkoutDto.fromEntity(workout));
+            WorkoutDto dto = WorkoutDto.fromEntity(workout);
+            dto.setExercisesId(workout.getExercises());
+            dtoList.add(dto);
         }
         return dtoList;
     }
 
     public WorkoutDto findById(Long id) {
-        return WorkoutDto.fromEntity(getEntity(id));
+        Workout workout = getEntity(id);
+        WorkoutDto dto = WorkoutDto.fromEntity(workout);
+        dto.setExercisesId(workout.getExercises());
+        return dto;
     }
 
     public WorkoutDto create(WorkoutDto dto) {
-        return WorkoutDto.fromEntity(workoutRepository.save(WorkoutDto.toEntity(dto)));
+        Workout workout = WorkoutDto.toEntity(dto);
+        List<Exercise> exercises = exerciseRepository.findAllById(dto.getExercisesId());
+        workout.setExercises(exercises);
+        WorkoutDto createdWorkout = WorkoutDto.fromEntity(workoutRepository.save(workout));
+        createdWorkout.setExercisesId(exercises);
+        return createdWorkout;
+        //return WorkoutDto.fromEntity(workoutRepository.save(WorkoutDto.toEntity(dto)));
     }
 
     public WorkoutDto update(WorkoutDto dto) {

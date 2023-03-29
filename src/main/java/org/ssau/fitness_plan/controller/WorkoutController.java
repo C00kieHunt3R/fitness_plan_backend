@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/workout")
-
+@CrossOrigin
 public class WorkoutController {
 
     @Autowired
@@ -37,12 +37,9 @@ public class WorkoutController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam Long id) {
+    public boolean delete(@RequestParam Long id) {
         workoutService.delete(id);
-        return ResponseEntity.noContent().build();
+        return true;
     }
-
-
-
 
 }

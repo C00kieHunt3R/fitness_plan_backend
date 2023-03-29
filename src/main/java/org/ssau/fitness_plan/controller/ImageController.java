@@ -8,13 +8,13 @@ import org.ssau.fitness_plan.service.ImageService;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/image")
+@RequestMapping("/images")
 public class ImageController {
 
     @Autowired
     ImageService imageService;
 
-    @GetMapping(value = "/get/{image}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/{image}", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] findImage(@PathVariable String image) throws IOException {
         return imageService.getImage(image);
     }

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.ssau.fitness_plan.dto.ExerciseDto;
 import org.ssau.fitness_plan.exception.NoSuchEntityIdException;
 import org.ssau.fitness_plan.model.Exercise;
+import org.ssau.fitness_plan.model.Workout;
 import org.ssau.fitness_plan.repository.ExerciseRepository;
+import org.ssau.fitness_plan.repository.WorkoutRepository;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -64,4 +66,21 @@ public class ExerciseService {
         }
     }
 
+    public List<ExerciseDto> findAllById(List<Long> identifiers) {
+        List<Exercise> exercises = exerciseRepository.findAllById(identifiers);
+        List<ExerciseDto> dtoList = new ArrayList<>();
+        exercises.forEach(exercise -> {
+            dtoList.add(ExerciseDto.fromEntity(exercise));
+        });
+        return dtoList;
+    }
+
+    public List<ExerciseDto> findAllByIdNot(List<Long> identifiers) {
+        List<Exercise> exercises = exerciseRepository.findAllByIdNot(identifiers);
+        List<ExerciseDto> dtoList = new ArrayList<>();
+        exercises.forEach(exercise -> {
+            dtoList.add(ExerciseDto.fromEntity(exercise));
+        });
+        return dtoList;
+    }
 }

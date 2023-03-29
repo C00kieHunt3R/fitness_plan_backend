@@ -8,9 +8,11 @@ import org.ssau.fitness_plan.dto.ExerciseDto;
 import org.ssau.fitness_plan.service.ExerciseService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/exercise")
+@CrossOrigin
 public class ExerciseController {
 
     @Autowired
@@ -18,6 +20,16 @@ public class ExerciseController {
     @GetMapping("/get-all")
     public List<ExerciseDto> findAll() {
         return exerciseService.findAll();
+    }
+
+    @GetMapping("/get-list")
+    public List<ExerciseDto> findAllById(@RequestParam(value = "id") List<Long> identifiers) {
+        return exerciseService.findAllById(identifiers);
+    }
+
+    @GetMapping("/get-list-not")
+    public List<ExerciseDto> findAllByIdNot(@RequestParam(value = "id") List<Long> identifiers) {
+        return exerciseService.findAllByIdNot(identifiers);
     }
 
     @PostMapping("/create")
@@ -31,8 +43,8 @@ public class ExerciseController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam Long id) {
+    public boolean delete(@RequestParam Long id) {
         exerciseService.delete(id);
-        return ResponseEntity.noContent().build();
+        return true;
     }
 }

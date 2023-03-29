@@ -36,9 +36,9 @@ public class UserAccountController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam Long id) {
+    public boolean delete(@RequestParam Long id) {
         accountService.delete(id);
-        return ResponseEntity.noContent().build();
+        return true;
     }
 
 }

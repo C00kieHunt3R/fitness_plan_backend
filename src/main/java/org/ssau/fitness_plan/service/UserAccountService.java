@@ -36,7 +36,8 @@ public class UserAccountService {
 
     public UserAccountDto update(UserAccountDto dto) {
         UserAccount userAccount = getEntity(dto.getId());
-        BeanUtils.copyProperties(dto, userAccount, "id");
+        //BeanUtils.copyProperties(dto, userAccount, "id");
+        userAccount = UserAccountDto.toEntity(dto);
         return UserAccountDto.fromEntity(userRepository.save(userAccount));
     }
 

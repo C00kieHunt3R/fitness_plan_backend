@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/goal")
+@CrossOrigin
 public class GoalController {
 
     @Autowired
@@ -32,8 +33,8 @@ public class GoalController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam Long id) {
+    public boolean delete(@RequestParam Long id) {
         goalService.delete(id);
-        return ResponseEntity.noContent().build();
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package org.ssau.fitness_plan.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Builder;
@@ -34,10 +35,11 @@ public class UserAccount {
     @Column(name = "height", columnDefinition = "decimal")
     private Integer height;
     @Column(name = "gender", columnDefinition =  "text")
-    private Gender gender;
+    private String gender;
     @Column(name = "birthdate")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    //@JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthdate;
     @Column(name = "email", length = 254, unique = true)
     @Email
@@ -46,7 +48,7 @@ public class UserAccount {
     public UserAccount() {
     }
 
-    public UserAccount(Long id, String name, String surname, Integer age, Integer weight, Integer height, Gender gender, Date birthdate, String email) {
+    public UserAccount(Long id, String name, String surname, Integer age, Integer weight, Integer height, String gender, Date birthdate, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;

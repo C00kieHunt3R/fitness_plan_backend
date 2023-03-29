@@ -17,6 +17,7 @@ public class GoalDto {
     private Date started;
     private Date completed;
     private String image;
+    //private Long ownerId;
 
     public static GoalDto fromEntity(Goal goal) {
         return GoalDto.builder()
@@ -26,6 +27,7 @@ public class GoalDto {
                 .started(goal.getStarted())
                 .completed(goal.getCompleted())
                 .image(goal.getImage())
+                //.ownerId(goal.getOwner().getId())
                 .build();
     }
     public static Goal toEntity(GoalDto dto) {
@@ -33,7 +35,6 @@ public class GoalDto {
                 .id(dto.getId())
                 .name(dto.getName())
                 .comment(dto.getComment())
-                .started(dto.getStarted())
                 .completed(dto.getCompleted())
                 .image(dto.getImage())
                 .build();

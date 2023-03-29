@@ -14,7 +14,7 @@ public class ImageService {
     public byte[] getImage(String image) throws IOException {
         //InputStream in = getClass().getResourceAsStream("src/main/resources/images/" + image); //images/img_3.png
         InputStream in = new FileInputStream("src/main/resources/images/" + image);
-        byte[] bytes = IOUtils.toByteArray(in);
+        byte[] bytes = in.readAllBytes();//IOUtils.toByteArray(in);
         in.close();
         return bytes;
     }

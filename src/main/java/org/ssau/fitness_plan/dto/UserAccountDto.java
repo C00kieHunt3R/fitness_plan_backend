@@ -1,11 +1,16 @@
 package org.ssau.fitness_plan.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.ssau.fitness_plan.model.UserAccount;
 import org.ssau.fitness_plan.model.enums.Gender;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Data
 @Builder
@@ -16,7 +21,7 @@ public class UserAccountDto {
     private Integer age;
     private Integer weight;
     private Integer height;
-    private Gender gender;
+    private String gender;
     private Date birthdate;
     private String email;
 
@@ -46,6 +51,8 @@ public class UserAccountDto {
                 .birthdate(dto.getBirthdate())
                 .email(dto.getEmail())
                 .build();
+
+
     }
 
 }
