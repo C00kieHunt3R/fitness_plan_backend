@@ -36,7 +36,7 @@ public class UserAccountController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    public Boolean delete(@RequestParam Long id) {
         accountService.delete(id);
         return true;
     }

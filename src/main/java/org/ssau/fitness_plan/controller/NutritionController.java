@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/nutrition")
+@CrossOrigin
 public class NutritionController {
 
     @Autowired
@@ -36,8 +37,8 @@ public class NutritionController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam Long id) {
+    public Boolean delete(@RequestParam Long id) {
         nutritionService.delete(id);
-        return ResponseEntity.noContent().build();
+        return true;
     }
 }

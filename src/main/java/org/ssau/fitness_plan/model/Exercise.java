@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "exercises", schema = "public")
+@Table(name = "exercise", schema = "public")
 @Getter
 @Setter
 @Builder
@@ -32,19 +32,12 @@ public class Exercise {
 
     public Exercise() {}
 
-    public Exercise(Long id, String name, String image, Integer reps, Integer sets, Double weight, List<Workout> workouts) {
+    public Exercise(Long id, String name, String image, Integer reps, Integer sets, Double weight) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.reps = reps;
         this.sets = sets;
         this.weight = weight;
-        this.workouts = workouts;
     }
-
-
-    @ManyToMany(mappedBy = "exercises", cascade = CascadeType.REFRESH)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Workout> workouts;
-
 }

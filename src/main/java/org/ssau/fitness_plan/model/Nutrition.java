@@ -4,10 +4,14 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.ssau.fitness_plan.model.enums.NutritionType;
 
+import java.util.List;
+
 @Entity
-@Table(name = "name", schema = "public")
+@Table(name = "nutrition", schema = "public")
 @Getter
 @Setter
 @Builder
@@ -15,6 +19,8 @@ public class Nutrition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name", nullable = false)
+    private String name;
     @Column(name = "meal", nullable = false)
     @Enumerated(EnumType.STRING)
     private NutritionType type;
@@ -25,18 +31,15 @@ public class Nutrition {
     @Column(name = "fat", columnDefinition = "decimal")
     private Double fat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserAccount owner;
-
     public Nutrition() {
     }
 
-    public Nutrition(Long id, NutritionType type, Double protein, Double carbohydrates, Double fat, UserAccount owner) {
+    public Nutrition(Long id, String name, NutritionType type, Double protein, Double carbohydrates, Double fat) {
         this.id = id;
+        this.name = name;
         this.type = type;
         this.protein = protein;
         this.carbohydrates = carbohydrates;
         this.fat = fat;
-        this.owner = owner;
     }
 }

@@ -43,7 +43,7 @@ public class ExerciseController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    public Boolean delete(@RequestParam Long id) {
         exerciseService.delete(id);
         return true;
     }

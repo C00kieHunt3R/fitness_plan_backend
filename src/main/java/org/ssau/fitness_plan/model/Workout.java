@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "workouts", schema = "public")
+@Table(name = "workout", schema = "public")
 @Getter
 @Setter
 @Builder
@@ -28,27 +28,28 @@ public class Workout {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JoinColumn(name = "exercise_id", referencedColumnName = "id")
     private List<Exercise> exercises;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserAccount owner;
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private TrainingDay trainingDay;
+
+
     @Column(name = "image")
     private String image;
 
     public Workout() {
     }
 
-    public Workout(Long id, String name, String comment, Date date, List<Exercise> exercises, UserAccount owner, String image) {
+    public Workout(Long id, String name, String comment, Date date, List<Exercise> exercises, String image) {
         this.id = id;
         this.name = name;
         this.comment = comment;
         this.date = date;
         this.exercises = exercises;
-        this.owner = owner;
         this.image = image;
     }
-
-
 }

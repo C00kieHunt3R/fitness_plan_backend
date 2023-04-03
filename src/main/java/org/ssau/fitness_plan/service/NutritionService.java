@@ -42,7 +42,7 @@ public class NutritionService {
 
     public void delete(Long id) {
         Nutrition nutrition = getEntity(id);
-        nutritionRepository.deleteById(id);
+        nutritionRepository.deleteById(nutrition.getId());
     }
     private Nutrition getEntity(Long id) {
         return nutritionRepository.findById(id).orElseThrow(() -> {

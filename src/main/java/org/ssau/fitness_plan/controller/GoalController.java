@@ -33,7 +33,7 @@ public class GoalController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    public Boolean delete(@RequestParam Long id) {
         goalService.delete(id);
         return true;
     }

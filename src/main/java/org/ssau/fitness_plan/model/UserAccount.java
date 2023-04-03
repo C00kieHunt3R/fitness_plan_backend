@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "users", schema = "public", uniqueConstraints = {
+@Table(name = "user_account", schema = "public", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
 @Getter

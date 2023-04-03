@@ -37,7 +37,7 @@ public class WorkoutController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    public Boolean delete(@RequestParam Long id) {
         workoutService.delete(id);
         return true;
     }
