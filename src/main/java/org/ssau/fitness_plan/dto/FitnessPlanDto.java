@@ -32,12 +32,13 @@ public class FitnessPlanDto {
     }
 
     public static FitnessPlan toEntity(FitnessPlanDto dto, List<TrainingDay> trainingDays) {
-        return FitnessPlan.builder()
-                .id(dto.getId())
-                .comment(dto.getComment())
-                .image(dto.getImage())
-                .trainingDays(trainingDays)
-                .build();
+        return new FitnessPlan(
+                dto.getId(),
+                dto.getName(),
+                dto.getComment(),
+                dto.getImage(),
+                trainingDays
+        );
     }
 
     private static List<Long> getTrainingDays(List<TrainingDay> trainingDays) {

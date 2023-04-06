@@ -7,12 +7,13 @@ import org.ssau.fitness_plan.dto.TrainingDayDto;
 import org.ssau.fitness_plan.exception.NoSuchEntityIdException;
 import org.ssau.fitness_plan.model.FitnessPlan;
 import org.ssau.fitness_plan.model.TrainingDay;
-import org.ssau.fitness_plan.repository.NutritionRepository;
+import org.ssau.fitness_plan.model.Workout;
 import org.ssau.fitness_plan.repository.FitnessPlanRepository;
 import org.ssau.fitness_plan.repository.TrainingDayRepository;
 import org.ssau.fitness_plan.repository.WorkoutRepository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,8 +23,6 @@ public class TrainingDayService {
     private TrainingDayRepository trainingDayRepository;
     @Autowired
     private WorkoutRepository workoutRepository;
-    @Autowired
-    private NutritionRepository nutritionRepository;
     @Autowired
     private FitnessPlanRepository fitnessPlanRepository;
 
@@ -46,26 +45,25 @@ public class TrainingDayService {
     public TrainingDayDto create(TrainingDayDto dto) {
         TrainingDay trainingDay = TrainingDayDto.toEntity(
                 dto,
-                workoutRepository.findAllById(dto.getWorkoutsId()),
-                nutritionRepository.findAllById(dto.getNutritionId())
+                getWorkoutEntity(dto.getWorkoutId())
         );
         return TrainingDayDto.fromEntity(trainingDayRepository.save(trainingDay));
     }
 
     public TrainingDayDto update(TrainingDayDto dto) {
-        TrainingDay trainingDay = getEntity(dto.getId());
-        BeanUtils.copyProperties(dto, trainingDay, "id", "workoutsId", "nutritionId");
-        trainingDay.setWorkouts(workoutRepository.findAllById(dto.getWorkoutsId()));
-        trainingDay.setNutrition(nutritionRepository.findAllById(dto.getNutritionId()));
+        TrainingDay trainingDay = getTrainingDayEntity(dto.getId());
+        BeanUtils.copyProperties(dto, trainingDay, "id", "workoutId");
+        //trainingDay.setWorkouts(workoutRepository.findAllById(dto.getWorkoutsId()));
+        trainingDay.setWorkout(getWorkoutEntity(dto.getWorkoutId()));
         return TrainingDayDto.fromEntity(trainingDay);
     }
 
     public void delete(Long id) {
-        TrainingDay trainingDay = getEntity(id);
+        TrainingDay trainingDay = getTrainingDayEntity(id);
         trainingDayRepository.deleteById(trainingDay.getId());
     }
 
-    private TrainingDay getEntity(Long id) {
+    private TrainingDay getTrainingDayEntity(Long id) {
         return trainingDayRepository.findById(id).orElseThrow(() -> {
             throw new NoSuchEntityIdException(TrainingDay.class.getSimpleName(), id);
         });
@@ -75,5 +73,27 @@ public class TrainingDayService {
         return fitnessPlanRepository.findById(id).orElseThrow(() -> {
             throw new NoSuchEntityIdException(FitnessPlan.class.getSimpleName(), id);
         });
+    }
+
+    private Workout getWorkoutEntity(Long id) {
+        return workoutRepository.findById(id).orElseThrow(() -> {
+            throw new NoSuchEntityIdException(Workout.class.getSimpleName(), id);
+        });
+    }
+
+    public List<TrainingDayDto> saveAll(List<TrainingDayDto> dtoList) {
+        List<TrainingDayDto> ret = new ArrayList<>();
+        dtoList.forEach(trainingDayDto -> {
+            ret.add(TrainingDayDto.fromEntity(
+                    trainingDayRepository.save(
+                            TrainingDayDto.toEntity(
+                                    trainingDayDto, getWorkoutEntity(trainingDayDto.getWorkoutId()
+                                    )
+                            )
+                    )
+            )
+            );
+        });
+        return ret;
     }
 }

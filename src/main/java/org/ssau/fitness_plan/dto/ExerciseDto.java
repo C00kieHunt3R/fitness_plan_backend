@@ -25,13 +25,13 @@ public class ExerciseDto {
                 .build();
     }
     public static Exercise toEntity(ExerciseDto exerciseDto) {
-        return Exercise.builder()
-                .id(exerciseDto.getId())
-                .name(exerciseDto.getName())
-                .image(exerciseDto.getImage())
-                .reps(exerciseDto.getReps())
-                .sets(exerciseDto.getSets())
-                .weight(exerciseDto.getWeight())
-                .build();
+        return new Exercise(
+                exerciseDto.getId(),
+                exerciseDto.getName(),
+                exerciseDto.getImage(),
+                exerciseDto.getReps(),
+                exerciseDto.getSets(),
+                exerciseDto.getWeight()
+        );
     }
 }

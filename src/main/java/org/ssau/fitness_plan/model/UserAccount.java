@@ -3,9 +3,7 @@ package org.ssau.fitness_plan.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.ssau.fitness_plan.model.enums.Gender;
 
@@ -16,12 +14,12 @@ import java.util.List;
 @Table(name = "user_account", schema = "public", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
-@Getter
-@Setter
-@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserAccount {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "name", columnDefinition = "text", length = 100, nullable = false)
@@ -45,34 +43,8 @@ public class UserAccount {
     @Email
     private String email;
 
-    public UserAccount() {
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    private List<FitnessPlan> fitnessPlans;
 
-    public UserAccount(Long id, String name, String surname, Integer age, Integer weight, Integer height, String gender, Date birthdate, String email) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.weight = weight;
-        this.height = height;
-        this.gender = gender;
-        this.birthdate = birthdate;
-        this.email = email;
-    }
-    //    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Goal> goals;
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Workout> workouts;
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Nutrition> nutritions;
-
-
-//    @OneToMany()
-//    private List<Nutrition> nutritions;
-//    @OneToMany()
-//    private List<Goal> goals;
-//    @OneToMany()
-//    private List<Workout> workouts;
 }

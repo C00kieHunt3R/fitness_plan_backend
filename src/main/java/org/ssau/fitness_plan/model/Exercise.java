@@ -12,12 +12,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "exercise", schema = "public")
-@Getter
-@Setter
-@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Exercise {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(name = "name", columnDefinition = "text", length = 100, nullable = false)
     private String name;
@@ -30,14 +30,4 @@ public class Exercise {
     @Column(name = "weight", columnDefinition = "decimal")
     private Double weight;
 
-    public Exercise() {}
-
-    public Exercise(Long id, String name, String image, Integer reps, Integer sets, Double weight) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.reps = reps;
-        this.sets = sets;
-        this.weight = weight;
-    }
 }

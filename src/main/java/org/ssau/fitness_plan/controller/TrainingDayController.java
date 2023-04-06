@@ -36,6 +36,11 @@ public class TrainingDayController {
         return trainingDayService.update(dto);
     }
 
+    @PostMapping("/save-all")
+    public List<TrainingDayDto> saveAll(@RequestBody List<TrainingDayDto> dtoList) {
+        return trainingDayService.saveAll(dtoList);
+    }
+
     @DeleteMapping("/delete")
     public Boolean delete(@RequestParam Long id) {
         trainingDayService.delete(id);

@@ -34,7 +34,6 @@ public class WorkoutDto {
         this.exercisesId = identifiers;
     }
 
-    //private UserAccount owner;
 
     public static WorkoutDto fromEntity(Workout workout) {
         return WorkoutDto.builder()
@@ -43,19 +42,19 @@ public class WorkoutDto {
                 .comment(workout.getComment())
                 .image(workout.getImage())
                 .date(workout.getDate())
-                //.exercises(workout.getExercises())
-                //.owner(workout.getOwner())
+                .exercisesId(workout.getExercises().stream().map(Exercise::getId).toList())
                 .build();
     }
-    public static Workout toEntity(WorkoutDto dto) {
-        return Workout.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .comment(dto.getComment())
-                .image(dto.getImage())
-                .date(dto.getDate())
-                //.exercises(dto.getExercises())
-                //.owner(dto.getOwner())
-                .build();
+
+    public static Workout toEntity(WorkoutDto dto, List<Exercise> exercises) {
+        return new Workout(
+                dto.getId(),
+                dto.getName(),
+                dto.getComment(),
+                dto.getDate(),
+                exercises,
+                dto.getImage()
+        );
+
     }
 }

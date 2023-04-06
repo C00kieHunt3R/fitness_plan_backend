@@ -1,9 +1,7 @@
 package org.ssau.fitness_plan.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,12 +11,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "workout", schema = "public")
-@Getter
-@Setter
-@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Workout {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(name = "name", columnDefinition = "text", length = 100, nullable = false)
     private String name;
@@ -30,7 +28,7 @@ public class Workout {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    @JoinColumn(name = "exercise_id", referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id")
     private List<Exercise> exercises;
 
 //    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -41,15 +39,5 @@ public class Workout {
     @Column(name = "image")
     private String image;
 
-    public Workout() {
-    }
 
-    public Workout(Long id, String name, String comment, Date date, List<Exercise> exercises, String image) {
-        this.id = id;
-        this.name = name;
-        this.comment = comment;
-        this.date = date;
-        this.exercises = exercises;
-        this.image = image;
-    }
 }

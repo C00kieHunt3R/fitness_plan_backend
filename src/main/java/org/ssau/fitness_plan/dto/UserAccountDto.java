@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.ssau.fitness_plan.model.FitnessPlan;
 import org.ssau.fitness_plan.model.UserAccount;
 import org.ssau.fitness_plan.model.enums.Gender;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
 
 @Data
 @Builder
@@ -24,6 +27,7 @@ public class UserAccountDto {
     private String gender;
     private Date birthdate;
     private String email;
+    private List<Long> fitnessPlansId;
 
     public static UserAccountDto fromEntity(UserAccount userAccount) {
         return UserAccountDto.builder()
@@ -36,23 +40,23 @@ public class UserAccountDto {
                 .gender(userAccount.getGender())
                 .birthdate(userAccount.getBirthdate())
                 .email(userAccount.getEmail())
+                .fitnessPlansId(userAccount.getFitnessPlans().stream().map(FitnessPlan::getId).toList())
                 .build();
     }
 
-    public static UserAccount toEntity(UserAccountDto dto) {
-        return UserAccount.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .surname(dto.getSurname())
-                .age(dto.getAge())
-                .weight(dto.getWeight())
-                .height(dto.getHeight())
-                .gender(dto.getGender())
-                .birthdate(dto.getBirthdate())
-                .email(dto.getEmail())
-                .build();
-
-
+    public static UserAccount toEntity(UserAccountDto dto, List<FitnessPlan> plans) {
+        return new UserAccount(
+                dto.getId(),
+                dto.getName(),
+                dto.getSurname(),
+                dto.getAge(),
+                dto.getWeight(),
+                dto.getHeight(),
+                dto.getGender(),
+                dto.getBirthdate(),
+                dto.getEmail(),
+                plans
+        );
     }
 
 }
